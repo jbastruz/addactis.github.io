@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4 Model Specifications | Modeling the COVID-19 spread</title>
+  <title>Modeling the COVID-19 spread</title>
   <meta name="description" content="A nice presentation to show our results about COVID-19 confirmed cases estimation" />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4 Model Specifications | Modeling the COVID-19 spread" />
+  <meta property="og:title" content="Modeling the COVID-19 spread" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4 Model Specifications | Modeling the COVID-19 spread" />
+  <meta name="twitter:title" content="Modeling the COVID-19 spread" />
   
   <meta name="twitter:description" content="A nice presentation to show our results about COVID-19 confirmed cases estimation" />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="model-estimations.html"/>
 
+<link rel="next" href="data-source.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -107,60 +107,25 @@ Jean-Baptiste Astruz </CENTER></li>
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="model-specifications" class="section level1">
-<h1><span class="header-section-number">4</span> Model Specifications</h1>
-<p>The previous figures are based on the model specification developed in this subsection. Let <span class="math inline">\(y_{tj}\)</span> be the cumulative number of confirmed cases for time <span class="math inline">\(t\)</span> and country <span class="math inline">\(j\)</span>. We assume that <span class="math inline">\(y_{tj}\)</span> is Lognormal distributed</p>
-<p><span class="math display">\[
-y_{jt} \sim Lognormal(\mu_{jt},\sigma)\\
-\]</span>
-where <span class="math inline">\(\mu_{tj}\)</span> and <span class="math inline">\(\sigma\)</span> are the mean and standard deviation of the associated normal, respectively. The residual error <span class="math inline">\(\sigma\)</span> does not depend on the country. The latter, in a hierarchical model structure, is understood as the within-group residual variability. In this context, it can be originated by different intensities of social distancing measures, different capabilities of governments to stop the spread or spatial/demographic variation across populations, among others. Based on these factors and using demographic proxy variables, we defined a set of clusters of countries that share common attributes (see subsection 1.3).<br />
-Under the Gompertz model, <span class="math inline">\(\mu_{tj}\)</span> is defined as</p>
-<p><span class="math display">\[
-\mu_{jt}=a_j \text{ } exp ({-b_j \times exp({-c_{tj} \times t}}))\\
-\]</span>
-where <span class="math inline">\(j\)</span> represents the country, <span class="math inline">\(a_j\)</span> represents the reaching point, <span class="math inline">\(b_j\)</span> the delay of the virus to start spreading, <span class="math inline">\(c_{tj}\)</span> the growth rate on time <span class="math inline">\(t\)</span>. In order to address the dynamics of the curve changes, we introduced a time-based <span class="math inline">\(c_{tj}\)</span>.<br />
-</p>
-<p><span class="math display">\[
-c_{jlt} = \frac{c_{jl}}{h_{jl} + exp(-g_{jl} \times (t - k_{jl}))}
-\]</span></p>
-<p>where <span class="math inline">\(c_j\)</span>, <span class="math inline">\(h_j\)</span> and <span class="math inline">\(g_j\)</span> are pulled towards the cluster mean and <span class="math inline">\(k_j\)</span> has its own mean for country <span class="math inline">\(j\)</span>. The b-parameter in equation (1) has the form <span class="math inline">\(b_j= b_{China} + \beta_j \times \sigma_b\)</span>.<br />
-Thus, the prior distributions of all model parameters are the following</p>
-<p><span class="math display">\[\begin{gather*}
-
-\sigma_{jt} \sim Normal^+(0,10)\\
-
-a_j \sim Normal^+(11,5)\\
-
-b_{China} \sim Normal^+(5,10)\\
-
-\beta_j \sim Normal^+(0,1)\\
-
-\sigma_b \sim Cauchy^+(0,25)\\
-
-c_{jl} \sim Normal(\gamma_l,\sigma_c)\\
-
-h_{jl} \sim Normal(\theta_l,\sigma_c)\\
-
-g_{jl} \sim Normal(\alpha_l,\sigma_c)\\
-
-k_{jl} \sim Normal(70,70)\\
-
-\gamma_l \sim Normal^+(0,1)\\
-
-\theta_l \sim Normal^+(0,10)\\
-
-\alpha_l \sim Normal^+(0,0.5)\\
-
-\end{gather*}\]</span></p>
-<p>where <span class="math inline">\(j=1,...,J\)</span> represents the country, <span class="math inline">\(l=1,...,L\)</span> represents the cluster for country <span class="math inline">\(j\)</span>. The hierarchical structure is introduced through <span class="math inline">\(c_{jl}\)</span>, <span class="math inline">\(h_{jl}\)</span> and <span class="math inline">\(g_{jl}\)</span>, i.e., country <span class="math inline">\(j\)</span> shares information with the cluster through <span class="math inline">\(\gamma_l\)</span>,<span class="math inline">\(\theta_l\)</span> and <span class="math inline">\(\alpha_l\)</span>. It is interesting to recover <span class="math inline">\(P(\gamma_l \mid y)\)</span> to analyze the efficiency of similar decisions at group level.</p>
+<div id="header">
+<h1 class="title">Modeling the COVID-19 spread</h1>
+<p class="author"><em>Juan Ignacio de Oyarbide &amp; Jean-Baptiste Astruz</em></p>
+<p class="date"><em>06/04/2020</em></p>
+</div>
+<div id="introduction" class="section level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>Governments have been taking strict measures to slowdown the COVID-19 pandemic or to “flatten the curve”. The main reason is funded on avoiding a shortfall of health care resources while buying time to learn about the disease. In the other hand, current lockdowns are provoking collateral problems, especially in fragile economies, which concerns about the actual sustainability of the system.<br />
+Under this context, insurance companies need to have a comprehensive and cross-functional view in order to go in line with public decisions and adapt to the society’s reponse. It is critical to constantly evaluate the spread of the virus and assess potential scenarios that may arise during this crisis.<br />
+With the goal of representing the virus evolution in the following weeks, we propose a dynamic probabilistic framework to estimate the number of confirmed cases in several countries. The structure is based on a Gompertz model whose parameters describe outbreak delay, growth rate and final point. We rely on Bayesian inference that provides a mathematical architecture to 1) propagate uncertainty from model assumptions to predictions, 2) partially-pool estimates towards a common clusterized behavior of the pandemic (“borrowing strength” property).<br />
+(Some conclusion bla bla)</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="model-estimations.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
+<a href="data-source.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
